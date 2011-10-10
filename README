@@ -1,0 +1,16 @@
+Author: Roger Unwin
+License: GPL
+
+This application is used to generate bi-weekly reports from jira.  It generates either html or pdf output.
+
+It requires the following ext libs:
+   (I include them just to make it easier to test build, but likely you should get them from their correct sources.)
+
+core-renderer-minimal.jar
+iText-2.0.8.jar
+jcalendar-1.3.3.jar
+xml-apis-xerces-2.9.1.jar
+core-renderer.jar
+iText-mine.jar
+looks-2.0.1.jar
+xom-1.2.6.jar
