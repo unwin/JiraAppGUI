@@ -88,9 +88,18 @@ public class htmlToPdf {
 
         html = Pattern.compile( "<h2>.*([0-9] tasks).*</h2>", Pattern.MULTILINE|Pattern.DOTALL).matcher(html).replaceAll("");
 
+        /* new code to fix pdf issues */
+        html = html.replaceAll("&hl=en#gid=0", ""); // Thanks to google for constructing a URL that breaks this pdf library */
+        //html = html.replaceAll("&#160;", "");
+        //html = html.replaceAll("&#gid=0", "");
+        //html = html.replaceAll("&&#gid=0", "");
+        //html = html.replaceAll("&#", "");
+        //html = html.replaceAll("&&#", "");
+        //html = html.replaceAll("hl=en_US", "");
+        //html = html.replaceAll("hl=en", "");
+        //System.out.println(html);
+        /* new code to fix pdf issues */
 
-
-       
 
         html = html.replaceAll("table \\{", "table { -fs-keep-with-inline: keep; -fs-table-paginate: paginate; -fs-text-decoration-extent: block;"); // line or block
         html = html.replaceFirst("-->", cssFix);
@@ -100,6 +109,7 @@ public class htmlToPdf {
         try {
             os = new FileOutputStream(pdfFileName);
         } catch (FileNotFoundException ex) {
+            System.out.println("FAil Location 1\n");
             Logger.getLogger(htmlToPdf.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -113,11 +123,13 @@ public class htmlToPdf {
             renderer.createPDF(os);
         } catch (DocumentException ex) {
             Logger.getLogger(htmlToPdf.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("FAil Location 2\n");
         }
         try {
             os.close();
         } catch (IOException ex) {
             Logger.getLogger(htmlToPdf.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("FAil Location 3\n");
         }
 
 

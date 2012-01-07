@@ -170,7 +170,12 @@ div {
                                 <tr>
                                     <xsl:apply-templates select="key"/>
                                     <xsl:apply-templates select="status"/>
-                                    <xsl:apply-templates select="summary"/>
+                                    <td width="560">
+                                      <xsl:apply-templates select="summary"/>
+                                      <div align="right" id="small">
+                                        <xsl:apply-templates select="customfields/customfield/customfieldvalues/customfieldvalue[contains(., 'http')]" mode="DesignLink"/>
+                                      </div>
+                                    </td>
                                 </tr>
                                 <xsl:apply-templates select="DescriptionXXX" mode="DescriptionXXX"/>
                                 <xsl:apply-templates select="comments/comment[contains(., '[BWR-H')]" mode="Highlight"/>
@@ -249,7 +254,12 @@ div {
                                 <tr>
                                     <xsl:apply-templates select="key"/>
                                     <xsl:apply-templates select="status"/>
-                                    <xsl:apply-templates select="summary"/>
+                                    <td width="560">
+                                      <xsl:apply-templates select="summary"/>
+                                      <div align="right" id="small">
+                                        <xsl:apply-templates select="customfields/customfield/customfieldvalues/customfieldvalue[contains(., 'http')]" mode="DesignLink"/>
+                                      </div>
+                                    </td>
                                 </tr>
                                 <xsl:apply-templates select="DescriptionXXX" mode="DescriptionXXX"/>
                                 <xsl:apply-templates select="comments/comment[contains(., '[BWR-H')]" mode="Highlight"/>
@@ -320,6 +330,7 @@ div {
                             </th>
                             <th width="580">
                                 <xsl:value-of select="$title_summary"/>
+
                             </th>
                         </tr>
                         <xsl:for-each select="item">
@@ -328,12 +339,18 @@ div {
                                 <tr>
                                     <xsl:apply-templates select="key"/>
                                     <xsl:apply-templates select="status"/>
-                                    <xsl:apply-templates select="summary"/>
+                                    <td width="560">
+                                      <xsl:apply-templates select="summary"/>
+                                      <div align="right" id="small">
+                                        <xsl:apply-templates select="customfields/customfield/customfieldvalues/customfieldvalue[contains(., 'http')]" mode="DesignLink"/>
+                                      </div>
+                                    </td>
                                 </tr>
                                 <xsl:apply-templates select="DescriptionXXX" mode="DescriptionXXX"/>
                                 <xsl:apply-templates select="comments/comment[contains(., '[BWR-H')]" mode="Highlight"/>
                                 <xsl:apply-templates select="comments/comment[contains(., '[BWR-P')]" mode="Progress"/>
                                 <xsl:apply-templates select="comments/comment[contains(., '[BWR-I')]" mode="Issue"/>
+
                             </xsl:if>
                         </xsl:for-each>
                     </table>
@@ -409,7 +426,12 @@ div {
                                 <tr>
                                     <xsl:apply-templates select="key"/>
                                     <xsl:apply-templates select="status"/>
-                                    <xsl:apply-templates select="summary"/>
+                                    <td width="560">
+                                      <xsl:apply-templates select="summary"/>
+                                      <div align="right" id="small">
+                                        <xsl:apply-templates select="customfields/customfield/customfieldvalues/customfieldvalue[contains(., 'http')]" mode="DesignLink"/>
+                                      </div>
+                                    </td>
                                 </tr>
                                 <xsl:apply-templates select="DescriptionXXX" mode="DescriptionXXX"/>
                                 <xsl:apply-templates select="comments/comment[contains(., '[BWR-H')]" mode="Highlight"/>
@@ -488,7 +510,12 @@ div {
                                 <tr>
                                     <xsl:apply-templates select="key"/>
                                     <xsl:apply-templates select="status"/>
-                                    <xsl:apply-templates select="summary"/>
+                                    <td width="560">
+                                      <xsl:apply-templates select="summary"/>
+                                      <div align="right" id="small">
+                                        <xsl:apply-templates select="customfields/customfield/customfieldvalues/customfieldvalue[contains(., 'http')]" mode="DesignLink"/>
+                                      </div>
+                                    </td>
                                 </tr>
                                 <xsl:apply-templates select="DescriptionXXX" mode="DescriptionXXX"/>
                                 <xsl:apply-templates select="comments/comment[contains(., '[BWR-H')]" mode="Highlight"/>
@@ -499,7 +526,7 @@ div {
                     </table>
                 </xsl:if>
 
-                
+
 
 
                 <!-- Subsystem header -->
@@ -570,7 +597,12 @@ div {
                                 <tr>
                                     <xsl:apply-templates select="key"/>
                                     <xsl:apply-templates select="status"/>
-                                    <xsl:apply-templates select="summary"/>
+                                    <td width="560">
+                                      <xsl:apply-templates select="summary"/>
+                                      <div align="right" id="small">
+                                        <xsl:apply-templates select="customfields/customfield/customfieldvalues/customfieldvalue[contains(., 'http')]" mode="DesignLink"/>
+                                      </div>
+                                    </td>
                                 </tr>
                                 <xsl:apply-templates select="DescriptionXXX" mode="DescriptionXXX"/>
                                 <xsl:apply-templates select="comments/comment[contains(., '[BWR-H')]" mode="Highlight"/>
@@ -652,7 +684,12 @@ div {
                                 <tr>
                                     <xsl:apply-templates select="key"/>
                                     <xsl:apply-templates select="status"/>
-                                    <xsl:apply-templates select="summary"/>
+                                    <td width="560">
+                                      <xsl:apply-templates select="summary"/>
+                                      <div align="right" id="small">
+                                        <xsl:apply-templates select="customfields/customfield/customfieldvalues/customfieldvalue[contains(., 'http')]" mode="DesignLink"/>
+                                      </div>
+                                    </td>
                                 </tr>
                                 <xsl:apply-templates select="DescriptionXXX" mode="DescriptionXXX"/>
                                 <xsl:apply-templates select="comments/comment[contains(., '[BWR-H')]" mode="Highlight"/>
@@ -738,7 +775,12 @@ div {
                                 <tr>
                                     <xsl:apply-templates select="key"/>
                                     <xsl:apply-templates select="status"/>
-                                    <xsl:apply-templates select="summary"/>
+                                    <td width="560">
+                                      <xsl:apply-templates select="summary"/>
+                                      <div align="right" id="small">
+                                        <xsl:apply-templates select="customfields/customfield/customfieldvalues/customfieldvalue[contains(., 'http')]" mode="DesignLink"/>
+                                      </div>
+                                    </td>
                                 </tr>
                                 <xsl:apply-templates select="DescriptionXXX" mode="DescriptionXXX"/>
                                 <xsl:apply-templates select="comments/comment[contains(., '[BWR-H')]" mode="Highlight"/>
@@ -819,7 +861,12 @@ div {
                                 <tr>
                                     <xsl:apply-templates select="key"/>
                                     <xsl:apply-templates select="status"/>
-                                    <xsl:apply-templates select="summary"/>
+                                    <td width="560">
+                                      <xsl:apply-templates select="summary"/>
+                                      <div align="right" id="small">
+                                        <xsl:apply-templates select="customfields/customfield/customfieldvalues/customfieldvalue[contains(., 'http')]" mode="DesignLink"/>
+                                      </div>
+                                    </td>
                                 </tr>
                                 <xsl:apply-templates select="DescriptionXXX" mode="DescriptionXXX"/>
                                 <xsl:apply-templates select="comments/comment[contains(., '[BWR-H')]" mode="Highlight"/>
@@ -898,7 +945,12 @@ div {
                                 <tr>
                                     <xsl:apply-templates select="key"/>
                                     <xsl:apply-templates select="status"/>
-                                    <xsl:apply-templates select="summary"/>
+                                    <td width="560">
+                                      <xsl:apply-templates select="summary"/>
+                                      <div align="right" id="small">
+                                        <xsl:apply-templates select="customfields/customfield/customfieldvalues/customfieldvalue[contains(., 'http')]" mode="DesignLink"/>
+                                      </div>
+                                    </td>
                                 </tr>
                                 <xsl:apply-templates select="DescriptionXXX" mode="DescriptionXXX"/>
                                 <xsl:apply-templates select="comments/comment[contains(., '[BWR-H')]" mode="Highlight"/>
@@ -981,7 +1033,12 @@ div {
                                 <tr>
                                     <xsl:apply-templates select="key"/>
                                     <xsl:apply-templates select="status"/>
-                                    <xsl:apply-templates select="summary"/>
+                                    <td width="560">
+                                      <xsl:apply-templates select="summary"/>
+                                      <div align="right" id="small">
+                                        <xsl:apply-templates select="customfields/customfield/customfieldvalues/customfieldvalue[contains(., 'http')]" mode="DesignLink"/>
+                                      </div>
+                                    </td>
                                 </tr>
                                 <xsl:apply-templates select="DescriptionXXX" mode="DescriptionXXX"/>
                                 <xsl:apply-templates select="comments/comment[contains(., '[BWR-H')]" mode="Highlight"/>
@@ -1061,7 +1118,12 @@ div {
                                 <tr>
                                     <xsl:apply-templates select="key"/>
                                     <xsl:apply-templates select="status"/>
-                                    <xsl:apply-templates select="summary"/>
+                                    <td width="560">
+                                      <xsl:apply-templates select="summary"/>
+                                      <div align="right" id="small">
+                                        <xsl:apply-templates select="customfields/customfield/customfieldvalues/customfieldvalue[contains(., 'http')]" mode="DesignLink"/>
+                                      </div>
+                                    </td>
                                 </tr>
                                 <xsl:apply-templates select="DescriptionXXX" mode="DescriptionXXX"/>
                                 <xsl:apply-templates select="comments/comment[contains(., '[BWR-H')]" mode="Highlight"/>
@@ -1103,9 +1165,10 @@ div {
     </xsl:template>
 
     <xsl:template match="summary">
-        <td width="560">
+
             <xsl:value-of select="."/>
-        </td>
+
+
     </xsl:template>
 
     <xsl:template match="status">
@@ -1219,4 +1282,7 @@ div {
         </xsl:if>
     </xsl:template>
 
+    <xsl:template match="customfields/customfield/customfieldvalues/customfieldvalue" mode="DesignLink">
+      <a><xsl:attribute name="href"><xsl:value-of select="."/></xsl:attribute>Design Doc</a>
+    </xsl:template>
 </xsl:stylesheet>

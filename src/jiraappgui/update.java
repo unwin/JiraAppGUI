@@ -2,9 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package jiraappgui;
-
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,12 +24,12 @@ import javax.xml.transform.TransformerConfigurationException;
 
 import java.io.ByteArrayInputStream;
 
-
 /**
  *
  * @author rogerunwin
  */
 public class update extends Thread {
+
     private final Timer busyIconTimer;
     private final JEditorPane jEditorPane1;
     private final String url;
@@ -40,7 +38,7 @@ public class update extends Thread {
     private Date EndDate;
     private final String username;
     private final String password;
-    private Map <String, ArrayList<String>> versions;
+    private Map<String, ArrayList<String>> versions;
     private final JiraAppGUIView parrent;
     private domPruner dp;
     private String xsltData;
@@ -60,7 +58,7 @@ public class update extends Thread {
         this.password = password;
         this.parrent = parrent;
 
-        
+
         try {
             csvTransformer = new xslt(readCsvXsltFile());  // would prefer input stream
         } catch (TransformerConfigurationException ex) {
@@ -74,23 +72,23 @@ public class update extends Thread {
         this.EndDate = endDate;
     }
 
-
-    public void setVersions(Map <String, ArrayList<String>> versions) {
-        List <String>l = new ArrayList(versions.keySet());
+    public void setVersions(Map<String, ArrayList<String>> versions) {
         /*
+        List <String>l = new ArrayList(versions.keySet());
+        
         for (String proj : l) {
-            ArrayList<String> vers = versions.get(proj);
-            for (int x = 0; x < vers.size();x++)
-                parrent.log("XXXX " + proj + " --VERSIONS-----------------------------" + vers.get(x));
-         
+        ArrayList<String> vers = versions.get(proj);
+        for (int x = 0; x < vers.size();x++)
+        parrent.log("XXXX " + proj + " --VERSIONS-----------------------------" + vers.get(x));
+
         }
-        */
+         */
 
         this.versions = versions;
     }
 
-    public void filter(Map <String, List<String>>selected) {
-        parrent.log("\n\n--FILTER-----------------------------\n\n");
+    public void filter(Map<String, List<String>> selected) {
+        //parrent.log("\n\n--FILTER-----------------------------\n\n");
         xslt transformer = null;
         try {
             transformer = new xslt(xsltData);  // would prefer input stream
@@ -100,12 +98,11 @@ public class update extends Thread {
 
 
         try {
-
             jEditorPane1.setContentType("text/html");
             dp.setDateRange(StartDate, EndDate);
 
 
-            
+
             // clone the input stream so we can use it twice.
             byte[] bytes = convertStreamToString(dp.filter(selected, true)).getBytes("UTF-8");
 
@@ -128,8 +125,8 @@ public class update extends Thread {
 
 
             parrent.output(html);
-//            jEditorPane1.setText(" " + html); // html
-//            jEditorPane1.setVisible(true);
+            //            jEditorPane1.setText(" " + html); // html
+            //            jEditorPane1.setVisible(true);
             System.gc();
 
 
@@ -140,9 +137,8 @@ public class update extends Thread {
 
     }
 
-
     public void unfilter() {
-        parrent.log("\n\n--UNFILTER-----------------------------\n\n");
+        //parrent.log("\n\n--UNFILTER-----------------------------\n\n");
         xslt transformer = null;
         try {
             transformer = new xslt(xsltData);  // would prefer input stream
@@ -159,11 +155,11 @@ public class update extends Thread {
 
             // clone the input stream so we can use it twice.
             byte[] bytes = convertStreamToString(dp.filter(null, false)).getBytes("UTF-8");
-        
+
 
             InputStream is = new ByteArrayInputStream(bytes);
             is2 = new ByteArrayInputStream(bytes);
-            
+
             String html = transformer.transform(is);
             csv = csvTransformer.transform(is2);
             html = html.replaceAll("&gt;", ">").replaceAll("&lt;", "<").replaceAll("&amp;", "&").replaceAll("&quot;", "\\\"").replaceAll("&amp;", "&");
@@ -194,7 +190,7 @@ public class update extends Thread {
     @Override
     public void run() {
         busyIconTimer.start();
-        parrent.log("\n\n--RUN-----------------------------\n\n");
+        //parrent.log("\n\n--RUN-----------------------------\n\n");
         webGetter wg = null;
         try {
             wg = new webGetter(url, username, password);
@@ -254,9 +250,9 @@ public class update extends Thread {
             csv = csvTransformer.transform(is2);
             html = html.replaceAll("&gt;", ">").replaceAll("&lt;", "<").replaceAll("&amp;", "&").replaceAll("&quot;", "\\\"").replaceAll("&amp;", "&");
             html = html.replaceAll("<br/>", "");
-            
+
             html = html.replaceAll("\\[BWR\\-P\\]", "").replaceAll("\\[BWR\\-I\\]", "");
-            
+
             String[] foo = html.split("<body>", 10);
 
             html = foo[1];
@@ -291,7 +287,6 @@ public class update extends Thread {
     }
 
     void saveCSV() {
-        
     }
 
     public String convertStreamToString(InputStream is) throws IOException {
@@ -301,10 +296,12 @@ public class update extends Thread {
          * there's no more data to read. Each line will appended to a StringBuilder
          * and returned as String.
          */
+        //parrent.log("convertStreamToString 1");
         if (is != null) {
             StringBuilder sb = new StringBuilder();
             String line;
 
+            //parrent.log("convertStreamToString 2");
             try {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
                 while ((line = reader.readLine()) != null) {
@@ -313,12 +310,12 @@ public class update extends Thread {
             } finally {
                 is.close();
             }
+            //parrent.log("convertStreamToString 3");
             return sb.toString();
         } else {
             return "";
         }
     }
-
 
     String readCsvXsltFile() {
         String doc = "";

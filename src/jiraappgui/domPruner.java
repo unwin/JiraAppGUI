@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package jiraappgui;
 
 import java.io.ByteArrayInputStream;
@@ -43,28 +42,21 @@ import org.xml.sax.SAXException;
  * @author unwin
  */
 public class domPruner {
+
     private Date StartDate = null;
     private Date EndDate = null;
-
     private String version = null;
     private String project = null;
     private boolean added = false;
     private String key = null;
     private String fixVersion = null;
-
-    private Map <String, ArrayList<String>>versions = new HashMap(); // <String, ArrayList<String>>
+    private Map<String, ArrayList<String>> versions = new HashMap(); // <String, ArrayList<String>>
     private Map<String, List<String>> selected = null;
-
     private String xml = "";
     String deleteMode = null;
     private final JiraAppGUIView mainWindow;
     private Boolean should_filter = true;
-
-
-
-
-
-
+    private String url = null;
 
     public String getJiraXML() {
         return xml;
@@ -82,8 +74,6 @@ public class domPruner {
         this.EndDate.setSeconds(59);
     }
 
-
-
     public void setDateRange(Date StartDate, Date EndDate) {
         this.StartDate = StartDate;
         this.StartDate.setHours(0);
@@ -95,11 +85,9 @@ public class domPruner {
         this.EndDate.setSeconds(59);
     }
 
-    public Map <String, ArrayList<String>>getVersions() {
+    public Map<String, ArrayList<String>> getVersions() {
         return versions;
     }
-
-
 
     public InputStream test(InputStream XML) throws ParserConfigurationException, SAXException, IOException {
         selected = null;
@@ -150,8 +138,8 @@ public class domPruner {
         return writer.toString();
     }
 
-
     public Node traverse(String path, String nodeName, Node node) {
+
         if (path.equals("/")) {
             project = null;
             version = null;
@@ -171,12 +159,12 @@ public class domPruner {
         if (node.hasChildNodes()) {
             NodeList children = node.getChildNodes();
 
-            for (int x = 0;x < children.getLength();x++) {
+            for (int x = 0; x < children.getLength(); x++) {
                 Node n = children.item(x);
                 Node d = traverse(path + "/" + node.getNodeName(), node.getNodeName(), n);
                 if (d != null) {
                     delete = d;
-                    if (deleteMode.equals("item"))
+                    if (deleteMode.equals("item")) {
                         if (delete.getNodeName().equals("item")) {
 //                            displayNodeTree(delete);
                             node.removeChild(delete);
@@ -185,7 +173,8 @@ public class domPruner {
                             d = null;
                             deleteMode = "";
                         }
-                    if (deleteMode.equals("comment"))
+                    }
+                    if (deleteMode.equals("comment")) {
                         if (delete.getNodeName().equals("comment")) {
 //                            displayNodeTree(delete);
                             node.removeChild(delete);
@@ -194,39 +183,38 @@ public class domPruner {
                             d = null;
                             deleteMode = "";
                         }
+                    }
 
                 }
             }
 
         } else {
-            if (nodeName.equals("key")) 
+            if (nodeName.equals("key")) {
                 key = node.getNodeValue();
-                
+            }
 
-            if (nodeName.equals("project"))
+
+            if (nodeName.equals("project")) {
                 project = node.getNodeValue();
+            }
 
 
             if (nodeName.equals("version")) {
-                if (version == null)
+                if (version == null) {
                     version = node.getNodeValue();
-                else {
+                } else {
                     version = version + "||" + node.getNodeValue();
-                    //mainWindow.log("WARNING! Multiple versions present. This item will now show when filtering for any of these versions. " + version + ".");
                 }
             }
 
 
- //           mainWindow.log(" * " + key + "(" + version + ")");
             if (nodeName.equals("votes")) {
                 if (version == null) {      // EMERGENCY VERSION HACK
-                        version = fixVersion;   // EMERGENCY VERSION HACK
-                    }                           // EMERGENCY VERSION HACK
+                    version = fixVersion;   // EMERGENCY VERSION HACK
+                }                           // EMERGENCY VERSION HACK
                 if ((version != null) && (project != null) && (added == false)) {
                     if (version.matches(".*\\|\\|.*")) {
-    //mainWindow.log("FOUND A || $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ " + version);
                         for (String v : version.split("\\|\\|")) {
-    //                        mainWindow.log("1ADDING version = " + v + " Project = " + project);
                             if (selected == null) {
                                 added = true;
                                 if ((project != null) && (v != null)) {
@@ -236,8 +224,9 @@ public class domPruner {
                                         versions.put(project, vers);
                                     } else {
                                         vers = versions.get(project);
-                                        if (!vers.contains(v))
+                                        if (!vers.contains(v)) {
                                             vers.add(v);
+                                        }
                                     }
 
                                     versions.put(project, vers);
@@ -246,8 +235,6 @@ public class domPruner {
                         }
 
                     } else {
-    //mainWindow.log("DIDNT FIND A || $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ " + version);
-    //                    mainWindow.log("2ADDING version = " + version + " Project = " + project);
                         if (selected == null) {
                             added = true;
                             if ((project != null) && (version != null)) {
@@ -257,8 +244,9 @@ public class domPruner {
                                     versions.put(project, vers);
                                 } else {
                                     vers = versions.get(project);
-                                    if (!vers.contains(version))
+                                    if (!vers.contains(version)) {
                                         vers.add(version);
+                                    }
                                 }
 
                                 versions.put(project, vers);
@@ -268,58 +256,44 @@ public class domPruner {
                 }
             }
 
-            if (nodeName.equals("fixVersion"))
+            if (nodeName.equals("fixVersion")) {
                 fixVersion = node.getNodeValue();
-
-
-
-
-
-            if (nodeName.equals("votes"))
-            if (((deleteMode == null) || (!deleteMode.equals("item"))) &&
-                (selected != null) && (project != null) && (version != null)) {
-
-                if (selected.get(project) != null) {
-                    List <String>vers = selected.get(project);
-                    Boolean deleteIt = true;
-
-                    for (String ver : vers) {
-//                        mainWindow.log(key + "----------testing if  " + ver + " EQUALS " + version);
-
-                        if (version.indexOf(ver) != -1) {
-
-                        
-                        //if (ver.equals(version)) {
-                            deleteIt = false;
-//                            mainWindow.log(key + "----------PROTECTED BECAUSE " + version + " CONTAINS " + ver);
-                        }
-                    }
-//                    mainWindow.log(key + "-------Value of deleteIt is " + deleteIt);
-                    if (deleteIt) {
-                        mainWindow.log("ACTUALLY SCHEDULING [" + key + "]  FOR DELETE DUE TO VERSION INCORRECT... WE HAVE " + project + "(" + version + ") != WE WANT " + project + "(" + selected.get(project) + ")");
-
-                        deleteMode = "item";
-                        delete = node;
-                    }
-                }   
             }
 
 
 
 
 
+            if (nodeName.equals("votes")) {
+                if (((deleteMode == null) || (!deleteMode.equals("item")))
+                        && (selected != null) && (project != null) && (version != null)) {
 
+                    if (selected.get(project) != null) {
+                        List<String> vers = selected.get(project);
+                        Boolean deleteIt = true;
+
+                        for (String ver : vers) {
+                            if (version.indexOf(ver) != -1) {
+                                deleteIt = false;
+                            }
+                        }
+
+                        if (deleteIt) {
+                            deleteMode = "item";
+                            delete = node;
+                        }
+                    }
+                }
+            }
 
 
             if (nodeName.equals("comment")) {
-                node.setNodeValue(node.getNodeValue().replaceAll("&lt;br/&gt;","\n"));
-                node.setNodeValue(node.getNodeValue().replaceAll("&amp;","&"));
-                node.setNodeValue(node.getNodeValue().replaceAll("&gt;",">"));
-                node.setNodeValue(node.getNodeValue().replaceAll("&lt;","<"));
-
-                node.setNodeValue(node.getNodeValue().replaceAll("<[bB][rR] *>","\n"));
-                node.setNodeValue(node.getNodeValue().replaceAll("<br>","<P />"));
-
+                node.setNodeValue(node.getNodeValue().replaceAll("&lt;br/&gt;", "\n"));
+                node.setNodeValue(node.getNodeValue().replaceAll("&amp;", "&"));
+                node.setNodeValue(node.getNodeValue().replaceAll("&gt;", ">"));
+                node.setNodeValue(node.getNodeValue().replaceAll("&lt;", "<"));
+                node.setNodeValue(node.getNodeValue().replaceAll("<[bB][rR] *>", "\n"));
+                node.setNodeValue(node.getNodeValue().replaceAll("<br>", "<P />"));
                 node.setNodeValue(node.getNodeValue().replaceAll("[\\\r\\\n]+", "<P />"));
 
                 SimpleDateFormat formatter = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z");
@@ -330,24 +304,20 @@ public class domPruner {
                     Logger.getLogger(domPruner.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 if (date.before(StartDate) || date.after(EndDate)) {
-                    mainWindow.log("REMOVING COMMENT FROM [" + key + "] DUE TO DATE OUT OF RANGE... " + StartDate.toString() + " < " + date.toString() + " < "+ EndDate.toString());
-                    mainWindow.log(node.getNodeValue());
-                    if (deleteMode == null)
+                    if (deleteMode == null) {
                         deleteMode = "comment";
-                    else if (!deleteMode.equals("item"))
+                    } else if (!deleteMode.equals("item")) {
                         deleteMode = "comment";
+                    }
 
                     delete = node;
                 }
             }
-          
+
         }
 
         if ((nodeName.equals("subtasks") == true) && (should_filter == true)) {
-
             if ((version == null) || (project == null)) {
-                mainWindow.log("filter = " + should_filter);
-                mainWindow.log("SCHEDULING " + key + " FOR DELETE BECAUSE VERSION OR PROJECT BEING NULL (PROJECT/VERSION/FIXVERSION) ("  + project + "/" + version+ "/" + fixVersion + ")");
                 deleteMode = "item";
                 delete = node;
             }
@@ -355,17 +325,16 @@ public class domPruner {
 
 
         if (delete != null) {
-//            mainWindow.log("Returning, The node has been scheduled for delete.");
             return node;
-        } else
+        } else {
             return null;
+        }
 
     }
 
     public InputStream filter(Map<String, List<String>> selected, Boolean filter) throws ParserConfigurationException, SAXException, IOException {
         this.selected = selected;
         this.should_filter = filter;
-        mainWindow.log("SETTING SHOULD_FILTER TO " + should_filter);
         InputStream is = new ByteArrayInputStream(xml.getBytes("UTF-8"));
 
         DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
@@ -376,7 +345,6 @@ public class domPruner {
         Node node = doc.getDocumentElement();
 
         traverse("/", "", node);
-//        System.out.println("***\n*** OUT\n***\n" + domToString(doc));
         return domToInputStream(doc);
     }
 
@@ -396,7 +364,7 @@ public class domPruner {
             mainWindow.log("ERROR PERFORMING THE TRANSFORM. " + ex.toString());
         }
         Document newDoc = (Document) dr.getNode();
-
-        mainWindow.log("BRANCH TO BE DELETED CONTAINS: " + domToString(newDoc));
     }
 }
+
+

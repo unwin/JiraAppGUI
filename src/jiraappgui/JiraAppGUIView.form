@@ -245,7 +245,6 @@
             </Component>
             <Component class="javax.swing.JCheckBox" name="filterStatusCheckbox">
               <Properties>
-                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Filter Status"/>
                 <Property name="toolTipText" type="java.lang.String" value="When Selected, only issues with a status in (Unresolved, Dropped-May Impact, Dropped-No Impact, Work Remains, Fixed,Won&apos;t Fix, Incomplete, Cannot Reproduce) are shown." noResource="true"/>
                 <Property name="name" type="java.lang.String" value="filterStatusCheckbox" noResource="true"/>
@@ -445,7 +444,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="xmlUrlField">
           <Properties>
-            <Property name="text" type="java.lang.String" value="https://jira.oceanobservatories.org/tasks/sr/jira.issueviews:searchrequest-xml/temp/SearchRequest.xml?jqlQuery=project+in+(CIDEV%2C+CIDEVAS%2C+CIDEVCOI%2C+CIDEVCEI%2C+CIDEVDM%2C+CIDEVEOI%2C+CIDEVMI%2C+CIDEVSA%2C+CIINT%2C+CISA%2C+CIUX%2C+CPOP%2C+SYSENG)+AND+issuetype+in+(Task%2C+%22Action+Item%22%2C+Summary)+AND+resolution+in+(%22Fixed%22%2C%22Dropped-No+Impact%22%2C%22Dropped-May+Impact%22%2C%22Work+Remains%22)+ORDER+BY+key+ASC" noResource="true"/>
+            <Property name="text" type="java.lang.String" value="https://jira.oceanobservatories.org/tasks/sr/jira.issueviews:searchrequest-xml/temp/SearchRequest.xml?jqlQuery=project+in+(CIDEV%2C+CIDEVAS%2C+CIDEVCOI%2C+CIDEVCEI%2C+CIDEVDM%2C+CIDEVEOI%2C+CIDEVMI%2C+CIDEVSA%2C+CIINT%2C+CISA%2C+CIUX%2C+CPOP%2C+SYSENG)+AND+issuetype+in+(Task%2C+%22Action+Item%22%2C+Summary)+ORDER+BY+key+ASC" noResource="true"/>
             <Property name="name" type="java.lang.String" value="xmlUrlField" noResource="true"/>
           </Properties>
           <Events>

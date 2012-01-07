@@ -50,6 +50,9 @@ import javax.swing.text.Document;
 
 import nu.xom.*;
 import java.io.*;
+import java.net.URL;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 
 
@@ -155,16 +158,21 @@ try {
 
         Calendar sDay = new GregorianCalendar();
         Calendar eDay = new GregorianCalendar();
-        sDay.roll(Calendar.DAY_OF_YEAR, -14);
+        sDay.roll(Calendar.DAY_OF_YEAR, -14); // if its the first 14 days of the year, the before date will now be 351 days after the end date //
+        if (sDay.after(eDay)) 
+            sDay.roll(Calendar.YEAR, -1);
+        
         startDateField.setDate(sDay.getTime());
-        //eDay.roll(Calendar.DAY_OF_YEAR, 0);
+        
         endDateField.setDate(eDay.getTime());
         endDateField.getJCalendar().setWeekOfYearVisible(false);
         startDateField.getJCalendar().setWeekOfYearVisible(false);
-        //endDateField.setCalendar(bDay);
+        
+    
+        ResourceBundle rb = ResourceBundle.getBundle("version");
+        this.getFrame().setTitle("Jira Report Generator (BUILD: " + rb.getString("BUILD") + ")");
 
-
-
+        
         
 
         // connecting action tasks to status bar via TaskMonitor
@@ -178,23 +186,15 @@ try {
                         busyIconIndex = 0;
                         busyIconTimer.start();
                     }
-//                    progressBar.setVisible(true);
-//                    progressBar.setIndeterminate(true);
                 } else if ("done".equals(propertyName)) {
                     busyIconTimer.stop();
 
                     statusAnimationLabel.setIcon(idleIcon);
-//                    progressBar.setVisible(false);
-//                    progressBar.setValue(0);
                 } else if ("message".equals(propertyName)) {
                     String text = (String)(evt.getNewValue());
-                   // statusMessageLabel.setText((text == null) ? "" : text);
                     messageTimer.restart();
                 } else if ("progress".equals(propertyName)) {
                     int value = (Integer)(evt.getNewValue());
-//                    progressBar.setVisible(true);
-//                    progressBar.setIndeterminate(false);
-//                    progressBar.setValue(value);
                 }
             }
         });
@@ -336,7 +336,6 @@ try {
         jLabel4.setText("Username");
         jLabel4.setName("UserNameLabel"); // NOI18N
 
-        filterStatusCheckbox.setSelected(true);
         filterStatusCheckbox.setText("Filter Status");
         filterStatusCheckbox.setToolTipText("When Selected, only issues with a status in (Unresolved, Dropped-May Impact, Dropped-No Impact, Work Remains, Fixed,Won't Fix, Incomplete, Cannot Reproduce) are shown."); // NOI18N
         filterStatusCheckbox.setName("filterStatusCheckbox"); // NOI18N
@@ -497,7 +496,7 @@ try {
         jLabel7.setText("Filter by iteration, comments by date");
         jLabel7.setName("jLabel7"); // NOI18N
 
-        xmlUrlField.setText("https://jira.oceanobservatories.org/tasks/sr/jira.issueviews:searchrequest-xml/temp/SearchRequest.xml?jqlQuery=project+in+(CIDEV%2C+CIDEVAS%2C+CIDEVCOI%2C+CIDEVCEI%2C+CIDEVDM%2C+CIDEVEOI%2C+CIDEVMI%2C+CIDEVSA%2C+CIINT%2C+CISA%2C+CIUX%2C+CPOP%2C+SYSENG)+AND+issuetype+in+(Task%2C+%22Action+Item%22%2C+Summary)+AND+resolution+in+(%22Fixed%22%2C%22Dropped-No+Impact%22%2C%22Dropped-May+Impact%22%2C%22Work+Remains%22)+ORDER+BY+key+ASC"); // NOI18N
+        xmlUrlField.setText("https://jira.oceanobservatories.org/tasks/sr/jira.issueviews:searchrequest-xml/temp/SearchRequest.xml?jqlQuery=project+in+(CIDEV%2C+CIDEVAS%2C+CIDEVCOI%2C+CIDEVCEI%2C+CIDEVDM%2C+CIDEVEOI%2C+CIDEVMI%2C+CIDEVSA%2C+CIINT%2C+CISA%2C+CIUX%2C+CPOP%2C+SYSENG)+AND+issuetype+in+(Task%2C+%22Action+Item%22%2C+Summary)+ORDER+BY+key+ASC"); // NOI18N
         xmlUrlField.setName("xmlUrlField"); // NOI18N
         xmlUrlField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -731,6 +730,11 @@ try {
     
     private update u;
     private void RunPressed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RunPressed
+
+        LogPanel.setText(""); /* clear the log */
+        System.gc();
+
+
         if ((UsernameField.getText().toString().length() > 1) && (PasswordField.getText().toString().length() > 1)) {
 //            System.out.println(" " + PasswordField.getText().toString().length() + UsernameField.getText().toString().length());
             run.setEnabled(false);
@@ -930,15 +934,15 @@ boolean locked = false;
 
     private void FilterPressed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FilterPressed
 
+        
+        LogPanel.setText(""); // clear the log 
+        System.gc();
 
-       
-
-
-
+        
         SimpleDateFormat formatter = new SimpleDateFormat ("yyyy.MM.dd");
         dateRange = "<br/>for period of<br/>" + formatter.format(startDateField.getDate()) + " &#8212; " + formatter.format(endDateField.getDate());
 
-
+        
         run.setEnabled(false);
         SaveHtml.setEnabled(true);
         SavePDF.setEnabled(true);
@@ -947,9 +951,15 @@ boolean locked = false;
         u.setDateRange(startDateField.getDate(), endDateField.getDate());
         u.filter(selected);
         run.setEnabled(true);
+        
     }//GEN-LAST:event_FilterPressed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        
+        LogPanel.setText(""); /* clear the log */
+        System.gc();
+
         // unFIlter
         u.setXsltData(xsltEditPanel.getText());
         u.setDateRange(startDateField.getDate(), endDateField.getDate());
